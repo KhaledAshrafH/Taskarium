@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="layout/main" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${task.name}"></title>
+</head>
+<body>
+<h3 layout:fragment="content-title" style="margin-bottom: 0!important;font-size: 30px"><span th:text="${task.name}"></span> <span style="font-weight: lighter">|</span> <a th:href="@{'/edit-task/'+${task.getId()}}" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);  color: black!important; font-weight: bold;" class="btn btn-sm">Edit Task</a>
+  <button th:href="@{'/edit-task/'+${task.getId()}}" class="btn btn-sm" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);  color: black!important; font-weight: bold;" data-toggle="modal" data-target="#addModal">Add Note</button>
+
+</h3>
+<p layout:fragment="content-title-description" th:text="${task.description}"></p>
+<div layout:fragment="task-details" >
+  <span class="text-muted ml-2" th:text="${'Created on: '+task.createdAt}"></span>
+</div>
+<div layout:fragment="content">
+
+  <div class="row">
+    <div class="col-12">
+
+      <div class="card" th:each="note : ${notes}">
+        <div class="card-body">
+          <div class="card-header" style="background: #2C2C2C; border-radius:5px">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="mb-0 text-white" th:text="${note.getTitle()}"></h5>
+              <span class="badge badge-pill" style="background-color: #28a745;">Completed</span>
+              <!-- Customize the background-color of the badge based on status:
+                   #28a745 for completed, #ffc107 for in progress, #6c757d for to-do -->
+            </div>
+
+          </div>
+
+          <h6 class="card-subtitle mb-2 text-muted" style="margin-top: 10px;" th:text="${'Created: '+note.getCreatedAt()}"></h6>
+          <p class="card-text" th:text="${note.getDescription()}"></p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group" role="group">
+              <button class="btn btn-sm btn-outline-primary">Edit</button>
+              <a th:href="${'/notes/delete-note/'+task.getId()+'/'+note.getNoteId()+'?source=task'}" class="btn btn-sm btn-outline-danger">Delete</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Separator -->
+  <!-- Decorative Divider -->
+  <div class="row">
+    <div class="col-12">
+      <div class="my-4" style="border-top: 2px dashed #ccc;"></div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Note</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Add Note Form -->
+          <div class="row" style="margin-bottom: 5vh;">
+            <div class="col-12">
+              <form method="post" th:action="${'/notes/add-note/'+task.getName()+'/'+task.getId()}">
+                <div class="form-group" style="box-shadow: 4px 4px 8px rgba(0,0,0,0.2);">
+                  <label for="noteTitle">Note Title</label>
+                  <input type="text" class="form-control" id="noteTitle" name="title" placeholder="Enter note title">
+                </div>
+                <div class="form-group" style="box-shadow: 4px 4px 8px rgba(0,0,0,0.2);">
+                  <label for="noteDescription">Description</label>
+                  <textarea class="form-control" id="noteDescription" name="description" rows="4" ></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="box-shadow: 0 5px 10px rgba(0,0,0,0.4);margin-top:5vh;margin-bottom: 0">Add Note</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

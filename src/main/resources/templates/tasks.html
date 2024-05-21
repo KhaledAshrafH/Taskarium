@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="layout/main" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>My Tasks</title>
+</head>
+<body>
+
+<h3 layout:fragment="content-title">My Tasks</h3>
+
+<!--Show All Tasks -->
+<div layout:fragment="content">
+  <div class="row">
+    <div class="col-lg-8 col-md-12">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12" th:each="task : ${tasks}">
+          <div class="card" th:style="${'background-color: '+task.getColor()}" style="background-color: antiquewhite">
+            <div class="card-body">
+              <h5 class="card-title" th:text="${task.getName()}"></h5>
+              <h6 class="card-subtitle mb-2 text-muted" th:text="${'Created: '+ task.getCreatedAt()}"></h6>
+              <p class="card-text" th:text="${task.getDescription()}"></p>
+              <a th:href="@{'task/'+${task.getId()}}" class="card-link">View Notes</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!--    Add New Task-->
+    <div class="col-lg-4 col-md-6">
+      <div class="row">
+        <h4>Add New Task</h4>
+        <div class="col-12">
+          <form method="post" action="save-task">
+            <div class="form-group">
+              <label for="task_name">Task Name</label>
+              <input type="text" class="form-control" id="task_name" name="name">
+            </div>
+            <div class="form-group">
+              <label for="task_description">Task Description</label>
+              <input type="text" class="form-control" id="task_description" name="description">
+            </div>
+            <div class="form-group">
+              <label for="task_color">Color</label>
+              <select name="color" class="form-control" id="task_color">
+                <option value="lightblue">Blue</option>
+                <option value="lightpink">Pink</option>
+                <option value="antiquewhite">Antique White</option>
+                <option value="lightgreen">Green</option>
+                <option value="lightcoral">Coral</option>
+                <option value="lightsalmon">Salmon</option>
+                <option value="lightgrey">Grey</option>
+                <option value="lightgoldenrodyellow">Goldenrod Yellow</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary" type="submit">Add Task</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

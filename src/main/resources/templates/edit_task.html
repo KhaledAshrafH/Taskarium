@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="layout/main" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h3 layout:fragment="content-title">Edit Task - <span th:text="${task.getName()}"></span></h3>
+<div layout:fragment="content">
+  <div class="col-md-12" style="width: 65%; margin: auto">
+    <div class="row">
+      <div class="col-12">
+        <form th:action="${'/update/' + task.id}" method="post">
+          <div class="form-group">
+            <label for="task_name">Task Name</label>
+            <input type="text" class="form-control" id="task_name" name="name" th:value="${task.getName()}">
+          </div>
+          <div class="form-group">
+            <label for="task_description">Task Description</label>
+            <input type="text" class="form-control" id="task_description" name="description"
+                   th:value="${task.getDescription()}">
+          </div>
+          <div class="form-group">
+            <label for="task_color">Color</label>
+            <select name="color" class="form-control" id="task_color">
+              <option th:selected="${task.getColor()=='lightblue'}" value="lightblue">Blue</option>
+              <option th:selected="${task.getColor()=='lightpink'}" value="lightpink">Pink</option>
+              <option th:selected="${task.getColor()=='antiquewhite'}" value="antiquewhite">Antique White</option>
+              <option th:selected="${task.getColor()=='lightgreen'}" value="lightgreen">Green</option>
+              <option th:selected="${task.getColor()=='lightcoral'}" value="lightcoral">Coral</option>
+              <option th:selected="${task.getColor()=='lightsalmon'}" value="lightsalmon">Salmon</option>
+              <option th:selected="${task.getColor()=='lightgrey'}" value="lightgrey">Grey</option>
+              <option th:selected="${task.getColor()=='lightgoldenrodyellow'}" value="lightgoldenrodyellow">Goldenrod
+                Yellow
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="task_status">Status</label>
+            <select name="status" class="form-control" id="task_status">
+              <option th:selected="${task.getStatus()?.toString() == 'ACTIVE'}" value="ACTIVE">Active</option>
+              <option th:selected="${task.getStatus()?.toString() == 'DISABLED'}" value="DISABLED">Disabled</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary">Save</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
