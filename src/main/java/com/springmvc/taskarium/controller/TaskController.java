@@ -20,26 +20,16 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-
 public class TaskController {
 
-    private static final Logger log = LoggerFactory.getLogger(TaskController.class);
     private final TaskService taskService;
     private final NoteService noteService;
-
-    @GetMapping("")
-    public String index() {
-        return "home";
-    }
-
-
-
 
 
     @PostMapping("save-task")
     public String addTask(@ModelAttribute(name = "task") TaskRequestDto task) {
         taskService.addTask(task);
-        return "redirect:/tasks"; // this to redired in specific page.
+        return "redirect:/tasks";
     }
 
 
@@ -59,21 +49,12 @@ public class TaskController {
         return "task_details";
     }
 
-
-    @GetMapping("edit-task/{id}")
-    public String index7(@PathVariable(name = "id") Long id, Model model) {
-        TaskDto task = taskService.findTaskById(id);
-        model.addAttribute("task", task);
-        return "edit_task";
-    }
-
     @PostMapping("update/{id}")
-    public String addTask(@ModelAttribute(name = "task") updateTaskDto task, @PathVariable(name = "id") Long id) {
+    public String editTask(@ModelAttribute(name = "task") updateTaskDto task, @PathVariable(name = "id") Long id) {
         task.setId(id);
         taskService.updateTask(task);
-        return "redirect:/task/"+task.getId(); // this to redired in specific page.
+        return "redirect:/task/"+task.getId();
     }
-
 
 
 }

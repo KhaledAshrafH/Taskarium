@@ -12,9 +12,9 @@ body {
     font-family: 'Cairo', sans-serif;
     background: #e0eafc; /* Light blue background */
 }
+
 .bk-cover {
-    background-image: url("https://miro.medium.com/v2/resize:fit:3000/1*H6rQuzHBhf91VmeVLUlLLA.jpeg");
-;
+    background-image: url("https://miro.medium.com/v2/resize:fit:3000/1*H6rQuzHBhf91VmeVLUlLLA.jpeg");;
     height: 300px; /* Full height */
     width: 100%;
     background-position: center;
@@ -23,18 +23,20 @@ body {
 
 
 }
+
 .sticky-notes-title {
     color: #ffffff;
     text-align: center;
     margin: 40px 0;
 }
+
 .card {
     margin: 20px;
     border: none;
     transition: transform 0.3s, box-shadow 0.3s;
     /* Paper-like appearance */
     background-color: #fff;
-    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     padding: 20px;
     /* Subtle 3D effect on hover */
@@ -42,27 +44,32 @@ body {
     transition: transform 0.6s;
     cursor: pointer;
 }
+
 .card:hover {
     transform: translateY(-10px) scale(1.05);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
-.navbar, .card , .bk-cover{
+
+.navbar, .card, .bk-cover {
     border-radius: 15px;
 }
+
 /* Modern styling for the form */
 .form-group {
     margin-bottom: 1rem;
     background: #fff;
     padding: 15px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .form-control {
     border-radius: 5px;
     border: 1px solid #ddd;
     padding: 10px;
     font-size: 16px;
 }
+
 .btn-primary {
     background-color: #5f27cd; /* Deep purple button */
     border: none;
@@ -72,32 +79,39 @@ body {
     font-size: 16px;
     transition: background-color 0.3s;
 }
+
 .btn-primary:hover {
     background-color: #341f97;
-    box-shadow: 0 2px 4px rgba(95,39,205,0.3);
+    box-shadow: 0 2px 4px rgba(95, 39, 205, 0.3);
 }
+
 /* Unique styling elements */
 .navbar {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
+
 .navbar-brand {
     font-weight: bold;
     color: #fff;
 }
+
 .nav-link {
     color: #adb5bd;
     transition: color 0.3s;
 }
+
 .nav-link:hover {
     color: #fff;
 }
+
 .form-group {
     margin-bottom: 1rem;
     background: #fff;
     padding: 15px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .form-control, .form-control:focus {
     border-radius: 5px;
     border: 1px solid #ddd;
@@ -105,6 +119,7 @@ body {
     font-size: 16px;
     box-shadow: none;
 }
+
 .btn-primary {
     background-color: rgb(44, 44, 44); /* Deep purple button */
     border: none;
@@ -118,14 +133,17 @@ body {
     max-width: 200px; /* Maximum width */
     margin: 0 auto; /* Center the button */
 }
+
 .btn-primary:hover {
     background-color: rgb(29, 29, 29);
-    box-shadow: 0 2px 4px rgba(95,39,205,0.3);
+    box-shadow: 0 2px 4px rgba(95, 39, 205, 0.3);
 }
+
 /* Adjust spacing */
 .form-group + .form-group {
     margin-top: 15px;
 }
+
 @keyframes slide-in-top {
     from {
         opacity: 0;
@@ -173,8 +191,9 @@ body {
 
 .card:hover {
     transform: translateY(-10px) scale(1.05);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
+
 /* Additional styling for the color swatch */
 .color-swatch {
 
@@ -185,6 +204,7 @@ body {
     margin-top: 50px;
     /* Add any other styling you'd like */
 }
+
 .color-swatch:hover {
     transform: scale(2);
     /* Add any hover effects you'd like */
@@ -202,6 +222,7 @@ h3 {
     margin: 20px 0; /* Add some space around the heading */
     text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.388); /* Text shadow for depth */
 }
+
 /* Responsive column adjustments */
 @media (max-width: 767px) {
     .col-4 {
@@ -209,17 +230,18 @@ h3 {
         max-width: 100%;
     }
 
-    .bk-cover{
+    .bk-cover {
         border-radius: 5px;
     }
 }
+
 @media (min-width: 768px) and (max-width: 991px) {
     .col-4 {
         flex: 0 0 50%;
         max-width: 50%;
     }
 
-    .bk-cover{
+    .bk-cover {
         border-radius: 5px;
     }
 }
@@ -230,28 +252,34 @@ h3 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
     text-align: center;
 }
+
 .navbar-brand {
     font-weight: bold;
     color: #fff;
 }
+
 .navbar-nav .nav-link {
     color: #fff;
     transition: color 0.3s;
 }
 
-.right-part{
+.right-part {
     margin-left: auto
 }
+
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link.active {
     color: #fed136; /* Highlight color on hover and active state */
 }
+
 .navbar-toggler {
     border-color: rgba(255, 255, 255, 0.5);
 }
+
 .navbar-toggler-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.7)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
+
 /* Responsive adjustments */
 @media (max-width: 991px) {
     .navbar-expand-lg .navbar-nav .nav-item {
@@ -266,6 +294,7 @@ h3 {
         margin: auto;
     }
 }
+
 /* Responsive grid adjustments */
 @media (max-width: 767px) {
     .col-4 {
@@ -292,3 +321,9 @@ h3 {
 }
 
 
+.navtitle {
+    font-family: "Merienda", cursive;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+}

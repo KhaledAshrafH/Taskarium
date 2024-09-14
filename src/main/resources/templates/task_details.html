@@ -5,12 +5,19 @@
   <title th:text="${task.name}"></title>
 </head>
 <body>
-<h3 layout:fragment="content-title" style="margin-bottom: 0!important;font-size: 30px"><span th:text="${task.name}"></span> <span style="font-weight: lighter">|</span> <a th:href="@{'/edit-task/'+${task.getId()}}" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);  color: black!important; font-weight: bold;" class="btn btn-sm">Edit Task</a>
-  <button th:href="@{'/edit-task/'+${task.getId()}}" class="btn btn-sm" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);  color: black!important; font-weight: bold;" data-toggle="modal" data-target="#addModal">Add Note</button>
+<h3 layout:fragment="content-title" style="margin-bottom: 0!important;font-size: 30px"><span
+    th:text="${task.name}"></span> <span style="font-weight: lighter">|</span> <a
+    th:href="@{'/edit-task/'+${task.getId()}}"
+    style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);  color: black!important; font-weight: bold;" class="btn btn-sm">Edit
+  Task</a>
+  <button class="btn btn-sm"
+          style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);  color: black!important; font-weight: bold;"
+          data-toggle="modal" data-target="#addModal">Add Note
+  </button>
 
 </h3>
 <p layout:fragment="content-title-description" th:text="${task.description}"></p>
-<div layout:fragment="task-details" >
+<div layout:fragment="task-details">
   <span class="text-muted ml-2" th:text="${'Created on: '+task.createdAt}"></span>
 </div>
 <div layout:fragment="content">
@@ -30,12 +37,14 @@
 
           </div>
 
-          <h6 class="card-subtitle mb-2 text-muted" style="margin-top: 10px;" th:text="${'Created: '+note.getCreatedAt()}"></h6>
+          <h6 class="card-subtitle mb-2 text-muted" style="margin-top: 10px;"
+              th:text="${'Created: '+note.getCreatedAt()}"></h6>
           <p class="card-text" th:text="${note.getDescription()}"></p>
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group" role="group">
               <button class="btn btn-sm btn-outline-primary">Edit</button>
-              <a th:href="${'/notes/delete-note/'+task.getId()+'/'+note.getNoteId()+'?source=task'}" class="btn btn-sm btn-outline-danger">Delete</a>
+              <a th:href="${'/notes/delete-note/'+task.getId()+'/'+note.getNoteId()+'?source=task'}"
+                 class="btn btn-sm btn-outline-danger">Delete</a>
             </div>
           </div>
         </div>
@@ -50,7 +59,8 @@
     </div>
   </div>
 
-  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -70,9 +80,11 @@
                 </div>
                 <div class="form-group" style="box-shadow: 4px 4px 8px rgba(0,0,0,0.2);">
                   <label for="noteDescription">Description</label>
-                  <textarea class="form-control" id="noteDescription" name="description" rows="4" ></textarea>
+                  <textarea class="form-control" id="noteDescription" name="description" rows="4"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary" style="box-shadow: 0 5px 10px rgba(0,0,0,0.4);margin-top:5vh;margin-bottom: 0">Add Note</button>
+                <button type="submit" class="btn btn-primary"
+                        style="box-shadow: 0 5px 10px rgba(0,0,0,0.4);margin-top:5vh;margin-bottom: 0">Add Note
+                </button>
               </form>
             </div>
           </div>
