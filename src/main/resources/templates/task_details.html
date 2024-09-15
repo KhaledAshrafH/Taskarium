@@ -7,7 +7,7 @@
 <body>
 <h3 layout:fragment="content-title" style="margin-bottom: 0!important;font-size: 30px"><span
     th:text="${task.name}"></span> <span style="font-weight: lighter">|</span> <a
-    th:href="@{'/edit-task/'+${task.getId()}}"
+    th:href="@{'/tasks/edit-task/'+${task.getTaskId()}}"
     style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);  color: black!important; font-weight: bold;" class="btn btn-sm">Edit
   Task</a>
   <button class="btn btn-sm"
@@ -43,7 +43,7 @@
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group" role="group">
               <button class="btn btn-sm btn-outline-primary">Edit</button>
-              <a th:href="${'/notes/delete-note/'+task.getId()+'/'+note.getNoteId()+'?source=task'}"
+              <a th:href="${'/notes/delete-note/'+note.getNoteId()+'?source=task'}"
                  class="btn btn-sm btn-outline-danger">Delete</a>
             </div>
           </div>
@@ -73,7 +73,7 @@
           <!-- Add Note Form -->
           <div class="row" style="margin-bottom: 5vh;">
             <div class="col-12">
-              <form method="post" th:action="${'/notes/add-note/'+task.getName()+'/'+task.getId()}">
+              <form method="post" th:action="${'/notes/add-note?taskId='+task.getTaskId()}">
                 <div class="form-group" style="box-shadow: 4px 4px 8px rgba(0,0,0,0.2);">
                   <label for="noteTitle">Note Title</label>
                   <input type="text" class="form-control" id="noteTitle" name="title" placeholder="Enter note title">

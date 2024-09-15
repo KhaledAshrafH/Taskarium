@@ -1,17 +1,9 @@
 package com.springmvc.taskarium.controller;
 
 import com.springmvc.taskarium.model.dto.*;
-import com.springmvc.taskarium.model.enums.TaskStatus;
-import com.springmvc.taskarium.model.mapper.TaskMapper;
 import com.springmvc.taskarium.service.NoteService;
 import com.springmvc.taskarium.service.TaskService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,40 +12,51 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("tasks")
 public class TaskController {
-
     private final TaskService taskService;
     private final NoteService noteService;
 
-
-    @PostMapping("save-task")
-    public String addTask(@ModelAttribute(name = "task") TaskRequestDto task) {
-        taskService.addTask(task);
+    @PostMapping("add-task")
+    public String addTask(@ModelAttribute(name = "taskCreationDto") TaskCreationDto taskCreationDto) {
+        taskService.addTask(taskCreationDto);
         return "redirect:/tasks";
     }
 
 
-    @GetMapping("tasks")
+    @GetMapping("")
     public String getTasks(Model model) {
-        List<TaskResponseDto> allTasks=taskService.getAllTasks();
-        model.addAttribute("tasks", allTasks);
+        List<TaskDto> tasks=taskService.getAllTasks();
+        model.addAttribute("allTasks", tasks);
         return "tasks";
     }
 
-    @GetMapping("task/{id}")
-    public String getTask(@PathVariable(name = "id") Long id, Model model) {
-        TaskDto task = taskService.findTaskById(id);
-        List<NoteDto> notes = noteService.getNotesByTaskId(id);
+    @GetMapping("{taskId}")
+    public String getTask(@PathVariable(name = "taskId") Long taskId, Model model) {
+        TaskDto task = taskService.findTaskById(taskId);
+        List<NoteDto> notes = noteService.getNotesByTaskId(taskId);
         model.addAttribute("task", task);
         model.addAttribute("notes", notes);
         return "task_details";
     }
 
-    @PostMapping("update/{id}")
-    public String editTask(@ModelAttribute(name = "task") updateTaskDto task, @PathVariable(name = "id") Long id) {
-        task.setId(id);
-        taskService.updateTask(task);
-        return "redirect:/task/"+task.getId();
+
+    @PostMapping("edit-task/{taskId}")
+    public String editTask(@ModelAttribute(name = "taskUpdateDto") TaskUpdateDto taskUpdateDto, @PathVariable(name = "taskId") Long taskId) {
+        taskUpdateDto.setTaskId(taskId);
+        taskService.updateTask(taskUpdateDto);
+        return "redirect:/tasks/"+taskUpdateDto.getTaskId();
+    }
+
+    @GetMapping("edit-task/{taskId}")
+    public String editTaskForm(@PathVariable(name = "taskId") Long taskId,Model model) {
+        model.addAttribute("task", taskService.findTaskById(taskId));
+        return "edit_task";
+    }
+
+    @PostMapping("delete-task/{taskId}")
+    public void addTask(@PathVariable(name = "taskId") Long taskId) {
+        taskService.deleteTask(taskId);
     }
 
 

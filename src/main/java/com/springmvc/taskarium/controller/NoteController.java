@@ -2,8 +2,7 @@ package com.springmvc.taskarium.controller;
 
 
 import com.springmvc.taskarium.model.dto.NoteDto;
-import com.springmvc.taskarium.model.dto.NoteRequestDto;
-import com.springmvc.taskarium.model.entity.Note;
+import com.springmvc.taskarium.model.dto.NoteCreationDto;
 import com.springmvc.taskarium.service.NoteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,22 +19,22 @@ import java.util.List;
 public class NoteController {
     private final NoteService noteService;
 
-    @PostMapping("add-note/{taskName}/{taskId}")
-    public String addNote(@ModelAttribute(name = "noteDto") NoteRequestDto noteDto, @PathVariable Long taskId, @PathVariable String taskName) {
-        log.warn("Add note contrleerrrrr : {}", noteDto);
-        noteService.addNote(noteDto,taskId,taskName);
-        return "redirect:/task/"+taskId;
+    @PostMapping("add-note")
+    public String addNote(@ModelAttribute(name = "noteCreationDto") NoteCreationDto noteCreationDto,@RequestParam Long taskId) {
+        noteCreationDto.setTaskId(taskId);
+        log.warn("From Note Controller {}", noteCreationDto);
+        NoteDto noteDto = noteService.addNote(noteCreationDto);
+        log.warn("From Note Controller {}", noteDto.getTaskId());
+        return "redirect:/tasks/"+noteCreationDto.getTaskId();
     }
 
-    @GetMapping("delete-note/{taskId}/{noteId}")
-    public String deleteNote(@PathVariable Long taskId, @PathVariable Long noteId,@RequestParam String source) throws Exception {
-        try {
-            noteService.deleteNote(noteId);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    @GetMapping("delete-note/{noteId}")
+    public String deleteNote(@PathVariable Long noteId,@RequestParam String source) throws Exception {
+        Long taskId = noteService.getTaskIdByNoteId(noteId);
+        log.warn("From Note Controller {}", taskId);
+        noteService.deleteNote(noteId);
         if(source.equals("task"))
-            return "redirect:/task/"+taskId;
+            return "redirect:/tasks/"+taskId;
         else
             return "redirect:/notes";
     }
@@ -43,8 +42,7 @@ public class NoteController {
     @GetMapping("")
     String getAllNotes(Model model) {
         List<NoteDto> notes = noteService.getAllNotes();
-        log.warn("from controller {}", notes.get(0));
-        model.addAttribute("notes",notes);
+        model.addAttribute("allNotes",notes);
         return "notes";
     }
 }

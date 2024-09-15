@@ -1,4 +1,4 @@
-package com.springmvc.taskarium.config;
+package com.springmvc.taskarium.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,66 +1,84 @@
 package com.springmvc.taskarium.service.impl;
 
-import com.springmvc.taskarium.model.dto.TaskDto;
-import com.springmvc.taskarium.model.dto.TaskRequestDto;
-import com.springmvc.taskarium.model.dto.TaskResponseDto;
-import com.springmvc.taskarium.model.dto.updateTaskDto;
+import com.springmvc.taskarium.exception.TaskDisabledException;
+import com.springmvc.taskarium.exception.TaskNotFoundException;
+import com.springmvc.taskarium.model.dto.*;
 import com.springmvc.taskarium.model.entity.Task;
+import com.springmvc.taskarium.model.entity.User;
 import com.springmvc.taskarium.model.enums.TaskStatus;
 import com.springmvc.taskarium.model.mapper.TaskMapper;
+import com.springmvc.taskarium.model.mapper.UserMapper;
 import com.springmvc.taskarium.repository.TaskRepository;
+import com.springmvc.taskarium.service.NoteService;
 import com.springmvc.taskarium.service.TaskService;
-import groovy.util.logging.Slf4j;
+import com.springmvc.taskarium.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.logging.Logger;
+
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(TaskServiceImpl.class);
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
+    private final UserService userService;
 
 
     @Override
-    public TaskRequestDto addTask(TaskRequestDto task) {
-        log.warn("task is {}", task);
-        Task newTask = taskMapper.toEntity(task);
-        newTask.setStatus(TaskStatus.ACTIVE);
-        log.warn("new task is {}", newTask);
-        taskRepository.save(newTask);
-        return task;
+    public void addTask(TaskCreationDto taskDto) {
+        Task task = taskMapper.toEntity(taskDto);
+        User user = userService.getCurrentUser();
+        task.setStatus(TaskStatus.ACTIVE);
+        task.setUser(user);
+        taskRepository.save(task);
     }
 
     @Override
-    public List<TaskResponseDto> getAllTasks() {
-        List<Task> tasks = taskRepository.findAllByStatus(TaskStatus.ACTIVE);
-        return taskMapper.toResDtos(tasks);
+    public List<TaskDto> getAllTasks() {
+        User user = userService.getCurrentUser();
+        log.warn("From TaskService : {}",user);
+        List<Task> tasks = taskRepository.findAllByStatusAndUser(TaskStatus.ACTIVE,user);
+        return taskMapper.toDTOs(tasks);
     }
 
     @Override
     public TaskDto findTaskById(Long id) {
-        Task task = taskRepository.findById(id).orElse(null);
-        return taskMapper.toDto(task);
+        User user = userService.getCurrentUser();
+        Task task = taskRepository.findByTaskIdAndUser(id,user).orElseThrow(()->
+                new TaskNotFoundException("Task Not Found"));
+
+        if(task.getStatus().equals(TaskStatus.DISABLED))
+            throw new TaskDisabledException("Task Disabled");
+
+        return taskMapper.toDTO(task);
     }
 
     @Override
-    public void updateTask(updateTaskDto task) {
-        Task taskUpdated=taskMapper.toEntity(task);
-        log.error("taskUpdated service :: {}", taskUpdated);
+    public void updateTask(TaskUpdateDto taskDto) {
+        User user = userService.getCurrentUser();
 
-        if(taskRepository.findById(taskUpdated.getId()).isPresent()){
-            taskRepository.save(taskUpdated);
-        }
-        else{
-            log.error("task is {}", task);
-        }
+        Task task=taskRepository.findByTaskIdAndUser(taskDto.getTaskId(),user).orElseThrow(()->
+                new TaskNotFoundException("Task Not Found"));
+
+        if(task.getStatus().equals(TaskStatus.DISABLED))
+            throw new TaskDisabledException("You can't edit this task.This Task Disabled!");
+        taskRepository.save(task);
+    }
+
+    @Override
+    public void deleteTask(Long taskId) {
+        User user = userService.getCurrentUser();
+
+        if(taskRepository.findByTaskIdAndUser(taskId,user).isEmpty())
+                throw new TaskNotFoundException("Task Not Found");
+        taskRepository.deleteById(taskId);
     }
 
 
