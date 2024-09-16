@@ -1,6 +1,5 @@
 package com.springmvc.taskarium.service.impl;
 
-import com.springmvc.taskarium.controller.UserController;
 import com.springmvc.taskarium.exception.NoteNotFoundException;
 import com.springmvc.taskarium.model.dto.NoteCreationDto;
 import com.springmvc.taskarium.model.dto.NoteDto;
@@ -9,20 +8,15 @@ import com.springmvc.taskarium.model.entity.Task;
 import com.springmvc.taskarium.model.entity.User;
 import com.springmvc.taskarium.model.mapper.NoteMapper;
 import com.springmvc.taskarium.model.mapper.TaskMapper;
-import com.springmvc.taskarium.model.mapper.UserMapper;
 import com.springmvc.taskarium.repository.NoteRepository;
 import com.springmvc.taskarium.service.NoteService;
 import com.springmvc.taskarium.service.TaskService;
 import com.springmvc.taskarium.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -31,7 +25,6 @@ public class NoteServiceImpl implements NoteService {
     private final NoteRepository noteRepository;
     private final NoteMapper noteMapper;
     private final UserService userService;
-    private final UserMapper userMapper;
     private final TaskService taskService;
     private final TaskMapper taskMapper;
 
@@ -54,14 +47,14 @@ public class NoteServiceImpl implements NoteService {
     public List<NoteDto> getNotesByTaskId(Long taskId) {
         User user = userService.getCurrentUser();
         Task task = taskMapper.toEntity(taskService.findTaskById(taskId));
-        List<Note> notes = noteRepository.findAllByTaskAndUserOrderByNoteIdDesc(task,user);
+        List<Note> notes = noteRepository.findAllByTaskAndUserOrderByNoteIdDesc(task, user);
         return noteMapper.toDTOs(notes);
     }
 
     @Override
     public void deleteNote(Long noteId) throws NoteNotFoundException {
         User user = userService.getCurrentUser();
-        if(noteRepository.findByNoteIdAndUser(noteId,user).isPresent())
+        if (noteRepository.findByNoteIdAndUser(noteId, user).isPresent())
             noteRepository.deleteById(noteId);
 
         else
@@ -72,14 +65,14 @@ public class NoteServiceImpl implements NoteService {
     public List<NoteDto> getAllNotes() {
         User user = userService.getCurrentUser();
         List<Note> notes = noteRepository.findAllByUser(user);
-        notes.sort((o1, o2) -> o1.getNoteId()<=o2.getNoteId() ? 0 : -1);
+        notes.sort((o1, o2) -> o1.getNoteId() <= o2.getNoteId() ? 0 : -1);
         return noteMapper.toDTOs(notes);
     }
 
     @Override
     public NoteDto getNoteById(Long noteId) {
         User user = userService.getCurrentUser();
-        Note note = noteRepository.findByNoteIdAndUser(noteId,user).orElseThrow(()->
+        Note note = noteRepository.findByNoteIdAndUser(noteId, user).orElseThrow(() ->
                 new NoteNotFoundException("Note Not found"));
         return noteMapper.toDTO(note);
     }
@@ -88,7 +81,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public Long getTaskIdByNoteId(Long noteId) {
         User user = userService.getCurrentUser();
-        Note note = noteRepository.findByNoteIdAndUser(noteId,user).orElseThrow(()->
+        Note note = noteRepository.findByNoteIdAndUser(noteId, user).orElseThrow(() ->
                 new NoteNotFoundException("Note Not found"));
         return note.getTask().getTaskId();
     }

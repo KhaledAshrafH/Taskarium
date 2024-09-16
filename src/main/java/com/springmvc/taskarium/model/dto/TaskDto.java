@@ -1,8 +1,6 @@
 package com.springmvc.taskarium.model.dto;
 
 import com.springmvc.taskarium.model.enums.TaskStatus;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

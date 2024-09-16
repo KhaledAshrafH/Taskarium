@@ -36,7 +36,7 @@ public class Task {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "task",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "task", cascade = CascadeType.PERSIST)
     private List<Note> notes;
 
     @Column(name = "created_at")

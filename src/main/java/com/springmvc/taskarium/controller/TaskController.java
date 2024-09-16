@@ -1,6 +1,9 @@
 package com.springmvc.taskarium.controller;
 
-import com.springmvc.taskarium.model.dto.*;
+import com.springmvc.taskarium.model.dto.NoteDto;
+import com.springmvc.taskarium.model.dto.TaskCreationDto;
+import com.springmvc.taskarium.model.dto.TaskDto;
+import com.springmvc.taskarium.model.dto.TaskUpdateDto;
 import com.springmvc.taskarium.service.NoteService;
 import com.springmvc.taskarium.service.TaskService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +29,7 @@ public class TaskController {
 
     @GetMapping("")
     public String getTasks(Model model) {
-        List<TaskDto> tasks=taskService.getAllTasks();
+        List<TaskDto> tasks = taskService.getAllTasks();
         model.addAttribute("allTasks", tasks);
         return "tasks";
     }
@@ -45,11 +48,11 @@ public class TaskController {
     public String editTask(@ModelAttribute(name = "taskUpdateDto") TaskUpdateDto taskUpdateDto, @PathVariable(name = "taskId") Long taskId) {
         taskUpdateDto.setTaskId(taskId);
         taskService.updateTask(taskUpdateDto);
-        return "redirect:/tasks/"+taskUpdateDto.getTaskId();
+        return "redirect:/tasks/" + taskUpdateDto.getTaskId();
     }
 
     @GetMapping("edit-task/{taskId}")
-    public String editTaskForm(@PathVariable(name = "taskId") Long taskId,Model model) {
+    public String editTaskForm(@PathVariable(name = "taskId") Long taskId, Model model) {
         model.addAttribute("task", taskService.findTaskById(taskId));
         return "edit_task";
     }
