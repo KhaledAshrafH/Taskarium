@@ -41,9 +41,9 @@
             <a class="nav-link" th:classappend="${urlPath.contains('/notes')?'active':''}" th:href="@{/notes}">My
               Notes</a>
           </li>
-<!--          <li class="nav-item active">-->
-<!--            <a class="nav-link" th:href="@{todo}">ToDo</a>-->
-<!--          </li>-->
+          <!--          <li class="nav-item active">-->
+          <!--            <a class="nav-link" th:href="@{todo}">ToDo</a>-->
+          <!--          </li>-->
 
           <li class="nav-item active" sec:authorize="hasRole('ROLE_ADMIN')">
             <a class="nav-link" th:classappend="${urlPath.contains('/admin/users')?'active':''}" th:href="@{/users}">Users</a>
@@ -75,7 +75,7 @@
     <div class="col-12 bk-cover" style="box-shadow: 4px 8px 16px rgba(0,0,0,0.4);"></div>
   </div>
 
-<!--  Variable Content-->
+  <!--  Variable Content-->
   <h3 layout:fragment="content-title" class="sticky-notes-title" style="color: black;"></h3>
   <p layout:fragment="content-title-description" class="text-muted " style="text-align: center;"></p>
   <div layout:fragment="task-details" style="margin: auto; text-align: center">
