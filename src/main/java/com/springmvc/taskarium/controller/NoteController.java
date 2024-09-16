@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * This controller handles functionalities related to notes.
+ */
 @Controller
 @RequiredArgsConstructor
 @Slf4j
@@ -19,30 +22,68 @@ import java.util.List;
 public class NoteController {
     private final NoteService noteService;
 
+
+    /**
+     * Add a new note to a task.
+     *
+     * @param noteCreationDto Object containing note details
+     * @param taskId          ID of the task to which the note is associated
+     * @return Redirect to the task details page
+     */
     @PostMapping("add-note")
     public String addNote(@ModelAttribute(name = "noteCreationDto") NoteCreationDto noteCreationDto, @RequestParam Long taskId) {
         noteCreationDto.setTaskId(taskId);
-        log.warn("From Note Controller {}", noteCreationDto);
-        NoteDto noteDto = noteService.addNote(noteCreationDto);
-        log.warn("From Note Controller {}", noteDto.getTaskId());
-        return "redirect:/tasks/" + noteCreationDto.getTaskId();
+        log.info("Adding a new note: {}", noteCreationDto);
+        try {
+            NoteDto noteDto = noteService.addNote(noteCreationDto);
+            log.info("Added note with task ID: {}", noteDto.getTaskId());
+            return "redirect:/tasks/" + noteCreationDto.getTaskId();
+        }
+        catch (Exception e) {
+            log.error("Error adding note: {}", e.getMessage());
+            return "error";
+        }
     }
+
+    /**
+     * Delete a note by its ID.
+     *
+     * @param noteId ID of the note to delete
+     * @param source Source of the request
+     * @return Redirect based on the source parameter
+     * @throws Exception if there are issues with note deletion
+     */
 
     @GetMapping("delete-note/{noteId}")
     public String deleteNote(@PathVariable Long noteId, @RequestParam String source) throws Exception {
-        Long taskId = noteService.getTaskIdByNoteId(noteId);
-        log.warn("From Note Controller {}", taskId);
-        noteService.deleteNote(noteId);
-        if (source.equals("task"))
-            return "redirect:/tasks/" + taskId;
-        else
-            return "redirect:/notes";
+        try {
+            Long taskId = noteService.getTaskIdByNoteId(noteId);
+            log.info("Deleting note with ID: {}", noteId);
+            noteService.deleteNote(noteId);
+            return "redirect:" + ("task".equals(source) ? "/tasks/" + taskId : "/notes");
+        }
+        catch (Exception e) {
+            log.error("Error deleting note: {}", e.getMessage());
+            return "error";
+        }
     }
 
+    /**
+     * Get all notes.
+     *
+     * @param model Model for holding attributes
+     * @return View name for displaying all notes
+     */
     @GetMapping("")
-    String getAllNotes(Model model) {
-        List<NoteDto> notes = noteService.getAllNotes();
-        model.addAttribute("allNotes", notes);
-        return "notes";
+    public String getAllNotes(Model model) {
+        try {
+            List<NoteDto> notes = noteService.getAllNotes();
+            model.addAttribute("allNotes", notes);
+            return "notes";
+        }
+        catch (Exception e) {
+            log.error("Error fetching all notes: {}", e.getMessage());
+            return "error";
+        }
     }
 }

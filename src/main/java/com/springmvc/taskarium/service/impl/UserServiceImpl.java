@@ -64,25 +64,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void loginUser(UserLoginDto userDto) {
-//        // Retrieve UserDetails by username
-//        UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
-//        log.warn("UserDetails: {}",userDetails.getPassword());
-//        log.warn("UserDto: {}",userDto.getPassword());
-//        log.warn("passwordEncoder.matches: {}",passwordEncoder.matches(userDto.getPassword(), userDetails.getPassword()));
-//        // Check password using PasswordEncoder
-//        if (!passwordEncoder.matches(userDto.getPassword(), userDetails.getPassword())){
-//            log.warn("Invalid password");
-//            throw new BadCredentialsException("Invalid username or password");
-//        }
-//
-//
-//        // Authentication successful, create Authentication object
-//        Authentication authentication = new UsernamePasswordAuthenticationToken(
-//                userDetails.getUsername(), null, userDetails.getAuthorities());
-//
-//        // 4. Set Authentication in SecurityContext
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-
         UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
         if (!passwordEncoder.matches(userDto.getPassword(), userDetails.getPassword())) {
             log.warn("Invalid password");

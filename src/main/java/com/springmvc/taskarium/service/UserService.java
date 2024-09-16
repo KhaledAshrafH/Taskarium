@@ -5,10 +5,15 @@ import com.springmvc.taskarium.model.dto.UserLoginDto;
 import com.springmvc.taskarium.model.dto.UserRegistrationDto;
 import com.springmvc.taskarium.model.dto.UserUpdateDto;
 import com.springmvc.taskarium.model.entity.User;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
 
+/**
+ * This interface defines the operations related to user management.
+ */
+@Transactional
 public interface UserService {
     List<UserDto> getAllUsers();
 

@@ -6,6 +6,9 @@ import jakarta.transaction.Transactional;
 
 import java.util.List;
 
+/**
+ * This interface defines the operations related to note management.
+ */
 @Transactional
 public interface NoteService {
     NoteDto addNote(NoteCreationDto note);

@@ -23,15 +23,18 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
+    @Column(nullable = false, unique = true)
     private String username;
     private String password;
 
     @Column(name = "full_name")
     private String fullName;
+
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private RoleType role;
+    private RoleType role = RoleType.USER;;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     List<Task> tasks;
@@ -39,7 +42,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     List<Task> notes;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
 

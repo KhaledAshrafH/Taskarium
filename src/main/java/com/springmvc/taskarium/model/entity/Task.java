@@ -32,14 +32,14 @@ public class Task {
     @Column(name = "color")
     private String color;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.PERSIST)
     private List<Note> notes;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at",updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
 

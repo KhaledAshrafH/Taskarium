@@ -35,12 +35,12 @@ public class TaskServiceImpl implements TaskService {
         task.setStatus(TaskStatus.ACTIVE);
         task.setUser(user);
         taskRepository.save(task);
+        log.info("Task created successfully: {}", task);
     }
 
     @Override
     public List<TaskDto> getAllTasks() {
         User user = userService.getCurrentUser();
-        log.warn("From TaskService : {}", user);
         List<Task> tasks = taskRepository.findAllByStatusAndUser(TaskStatus.ACTIVE, user);
         return taskMapper.toDTOs(tasks);
     }
@@ -77,6 +77,4 @@ public class TaskServiceImpl implements TaskService {
             throw new TaskNotFoundException("Task Not Found");
         taskRepository.deleteById(taskId);
     }
-
-
 }

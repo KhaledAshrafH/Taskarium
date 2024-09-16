@@ -8,14 +8,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @ControllerAdvice
 @RequiredArgsConstructor
 public class GlobalController {
-    private final HttpServletRequest request;
+    private final HttpServletRequest httpRequest;
 
-    @ModelAttribute(name = "urlPath")
-    public String getPath(){
-        return request.getServletPath();
+    // Provides the current URL path for active navigation in the navbar
+    @ModelAttribute("urlPath")
+    public String getPath() {
+        return httpRequest.getServletPath();
     }
-
 }
-
-
-

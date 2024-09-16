@@ -35,11 +35,8 @@ public class NoteServiceImpl implements NoteService {
         Note note = noteMapper.toEntity(noteDto);
         note.setTask(task);
         note.setUser(user);
-        log.warn("From Note Service : {}", note.getTask());
-        log.warn("From Note Service : {}", note.getUser());
-
         Note savedNote = noteRepository.save(note);
-        log.warn("From Note Service : {}", note);
+        log.info("Note created successfully: {}", savedNote);
         return noteMapper.toDTO(savedNote);
     }
 
@@ -54,18 +51,19 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public void deleteNote(Long noteId) throws NoteNotFoundException {
         User user = userService.getCurrentUser();
-        if (noteRepository.findByNoteIdAndUser(noteId, user).isPresent())
+        if (noteRepository.findByNoteIdAndUser(noteId, user).isPresent()){
             noteRepository.deleteById(noteId);
-
+            log.info("Note deleted successfully: {}", noteId);
+        }
         else
-            throw new NoteNotFoundException("Note Not found");
+            throw new NoteNotFoundException("Note with ID " + noteId + " not found for current user");
     }
 
     @Override
     public List<NoteDto> getAllNotes() {
         User user = userService.getCurrentUser();
         List<Note> notes = noteRepository.findAllByUser(user);
-        notes.sort((o1, o2) -> o1.getNoteId() <= o2.getNoteId() ? 0 : -1);
+        notes.sort((o1, o2) -> o2.getNoteId().compareTo(o1.getNoteId()));
         return noteMapper.toDTOs(notes);
     }
 
@@ -76,7 +74,6 @@ public class NoteServiceImpl implements NoteService {
                 new NoteNotFoundException("Note Not found"));
         return noteMapper.toDTO(note);
     }
-
 
     @Override
     public Long getTaskIdByNoteId(Long noteId) {

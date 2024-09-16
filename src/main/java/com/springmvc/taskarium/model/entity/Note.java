@@ -27,15 +27,15 @@ public class Note {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "task_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_id", nullable = false)
     private Task task;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at",updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
 
