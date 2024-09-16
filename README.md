@@ -9,6 +9,7 @@ Taskarium is a powerful and user-friendly task and note management application d
 - [Usage](#usage)
 - [Security](#security)
 - [Project Structure](#project-structure)
+- [Screenshots](#screenshots)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -66,6 +67,39 @@ The project follows a clean architecture approach with clear separation of conce
 * **Security**: Configuration for user roles, permissions, and authentication mechanisms.
 * **Advice**: Aspect-oriented programming aspects for cross-cutting concerns.
 * **Layout**: Thymeleaf templates for building the user interface.
+
+## Screenshots
+Here are some screenshots that showcase the user interface of Taskarium:
+<br>
+<p align="center" margin="auto">
+    <kbd>
+<img align="center" 
+            src="https://github.com/KhaledAshrafH/Taskarium/blob/main/images/1.jpg"
+            alt="KhaledAshrafH"  height="350" style="border-radius: 20px;"/>
+    </kbd>
+  </p>
+ <h1 align="center"></h1>
+
+ <br>
+<p align="center" margin="auto">
+    <kbd>
+<img align="center" 
+            src="https://github.com/KhaledAshrafH/Taskarium/blob/main/images/2.jpg"
+            alt="KhaledAshrafH"  height="350" style="border-radius: 20px;"/>
+    </kbd>
+  </p>
+ <h1 align="center"></h1>
+
+ <br>
+<p align="center" margin="auto">
+    <kbd>
+<img align="center" 
+            src="https://github.com/KhaledAshrafH/Taskarium/blob/main/images/3.jpg"
+            alt="KhaledAshrafH"  height="350" style="border-radius: 20px;"/>
+    </kbd>
+  </p>
+ 
+
 
 ## Contributing
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
