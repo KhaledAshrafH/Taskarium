@@ -20,14 +20,14 @@ public class SecurityConfig {
      * @throws Exception If there's an issue configuring security.
      */
     @Bean
-    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // Define URL authorization rules
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/about", "/styles/**", "/h2-console/**", "/register")
+                .requestMatchers("/", "/about", "/styles/**", "/register")
                 .permitAll()
                 .requestMatchers("/update/**", "/tasks/**", "/notes/**", "/", "/task/**", "/edit-task/**")
                 .authenticated()
-                .requestMatchers("/users/**")
+                .requestMatchers("/users/**","/h2-console/**")
                 .hasRole("ADMIN")
         );
 
